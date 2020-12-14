@@ -39,6 +39,11 @@ make -j1 V=s #编译固件
 
 🛑 [点击这里去下载最新的版本](https://github.com/jerrykuku/luci-app-ttnode/releases)  
 
+1.先安装依赖  
+```
+opkg update
+opkg install luasocket lua-md5 lua-cjson luasec
+```
 1.将luci-app-ttnode.ipk上传到路由器，并执行  opkg install /你上传的路径/luci-app-ttnode*.ipk
 
 ### 我的其它项目
