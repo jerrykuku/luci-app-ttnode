@@ -233,7 +233,7 @@ function ttnode.startProcess()
     --自动提现
     local now_week = os.date('%A')
     local withdraw = ''
-    if week == now_week and auto_cash == 1 then
+    if week == now_week and auto_cash == "1" then
         local userInfo = userData.data
         local zfbList = userInfo.zfbList
         if next(zfbList) == nil then
