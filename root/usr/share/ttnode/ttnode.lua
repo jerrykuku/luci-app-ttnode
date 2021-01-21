@@ -1,6 +1,6 @@
 -- Copyright (C) 2020 jerrykuku <jerrykuku@gmail.com>
 -- Licensed to the public under the GNU General Public License v3.
-
+package.path = package.path .. ';/usr/share/ttnode/?.lua'
 local uci = require 'luci.model.uci'.cursor()
 local config = 'ttnode'
 local requests = require('requests')
@@ -9,7 +9,10 @@ local BASE_API = 'http://tiantang.mogencloud.com/api/v1/'
 local xformHeaders = {['Content-Type'] = 'application/x-www-form-urlencoded'}
 
 local sckey = uci:get_first(config, 'global', 'serverchan')
+local tg_token = uci:get_first(config, 'global', 'tg_token')
+local tg_userid = uci:get_first(config, 'global', 'tg_userid')
 local token = uci:get_first(config, 'global', 'token')
+
 local auto_cash = uci:get_first(config, 'global', 'auto_cash')
 local week = uci:get_first(config, 'global', 'week')
 local ttnode = {}
@@ -59,14 +62,20 @@ end
 
 --APIS--
 
---发送消息到Server酱
+--发送消息到Server酱 和 Telegram
 function ttnode.sendMsg(text, desp)
-    if sckey == '' or sckey == nil then
-        return
+    if sckey:len() > 0 then
+        local url = 'https://sc.ftqq.com/' .. sckey .. '.send'
+        local data = 'text=' .. text .. '&desp=' .. desp
+        response = requests.post {url, data = data, headers = xformHeaders}
     end
-    url = 'https://sc.ftqq.com/' .. sckey .. '.send'
-    data = 'text=' .. text .. '&desp=' .. desp
-    response = requests.post {url, data = data, headers = xformHeaders}
+    if tg_token:len() > 0 and tg_userid:len() > 0 then
+        local tg_url = 'https://api.telegram.org/bot' .. tg_token .. '/sendMessage'
+        local tg_msg = "<b>"..text.."</b>"..desp
+        local tg_data = 'chat_id='.. tg_userid ..'&text=' .. tg_msg .. '&parse_mode=html'
+        response = requests.post {tg_url, data = tg_data, headers = xformHeaders}
+    end
+    return 1
 end
 
 --获取验证码
@@ -233,7 +242,7 @@ function ttnode.startProcess()
     --自动提现
     local now_week = os.date('%A')
     local withdraw = ''
-    if week == now_week and auto_cash == "1" then
+    if week == now_week and auto_cash == '1' then
         local userInfo = userData.data
         local zfbList = userInfo.zfbList
         if next(zfbList) == nil then
@@ -254,9 +263,10 @@ function ttnode.startProcess()
     local accountScore_str = '\n' .. os.date('%Y-%m-%d %H:%M:%S') .. '[账户星星]' .. accountScore .. '-🌟\n'
     local ends = '\n```\n***\n注意:以上统计仅供参考，一切请以甜糖客户端APP为准'
     msg = accountScore_str .. total_str .. withdraw .. msg .. ends
-    ttnode.sendMsg(msgTitle, msg)
+    msgRes = ttnode.sendMsg(msgTitle, msg)
     resObj.code = 0
     resObj.msg = msg
+    resObj.msgres = msgRes
     return resObj
 end
 

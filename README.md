@@ -2,16 +2,12 @@
 
 一个运行在openwrt下的甜糖星愿自动采集插件。
 
-### Update Log 2020-12-10  
+### Update Log 2021-01-21  
 
 #### Updates
 
-- NEW: 初始版本支持以下特性。
-- NEW: 检测登录状态，可在本插件内登录。
-- NEW: 获取用户信息。
-- NEW: 定时自动采集。
-- NEW: 定期自动提现。
-- NEW: 运行结果推送到Server酱。
+- FIX: 修复无法获取短信和登录的问题（兼容bootstrap）
+- NEW: 增加Telegram消息推送。
 
 
 详情见[具体日志](./relnotes.txt)。 

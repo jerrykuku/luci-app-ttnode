@@ -7,8 +7,8 @@
 include $(TOPDIR)/rules.mk
 PKG_NAME:=luci-app-ttnode
 LUCI_PKGARCH:=all
-PKG_VERSION:=0.1.3
-PKG_RELEASE:=20201210
+PKG_VERSION:=0.2
+PKG_RELEASE:=20210121
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -43,9 +43,6 @@ define Package/luci-app-ttnode/install
 
 	$(INSTALL_DIR) $(1)/usr/share/ttnode
 	$(INSTALL_BIN) ./root/usr/share/ttnode/*.lua $(1)/usr/share/ttnode/
-
-	$(INSTALL_DIR) $(1)/usr/share/lua
-	$(INSTALL_BIN) ./root/usr/share/lua/*.lua $(1)/usr/share/lua/
 
 	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
 	$(INSTALL_DATA) ./root/usr/share/rpcd/acl.d/* $(1)/usr/share/rpcd/acl.d

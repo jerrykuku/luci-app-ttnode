@@ -1,6 +1,7 @@
 -- Copyright (C) 2020 jerrykuku <jerrykuku@gmail.com>
 -- Licensed to the public under the GNU General Public License v3.
 module('luci.controller.ttnode', package.seeall)
+package.path = package.path .. ';/usr/share/ttnode/?.lua'
 local ttnode = require('ttnode')
 function index()
     if not nixio.fs.access('/etc/config/ttnode') then
@@ -54,12 +55,16 @@ function save()
     local auto_cash = luci.http.formvalue("auto_cash")
     local week = luci.http.formvalue("week")
     local serverchan = luci.http.formvalue("serverchan")
+    local tg_userid = luci.http.formvalue("tg_userid")
+    local tg_token = luci.http.formvalue("tg_token")
     local name = ""
     uci:set("ttnode", '@global[0]', 'auto_run', auto_run)
     uci:set("ttnode", '@global[0]', 'auto_run_time', auto_run_time)
     uci:set("ttnode", '@global[0]', 'auto_cash', auto_cash)
     uci:set("ttnode", '@global[0]', 'week', week)
     uci:set("ttnode", '@global[0]', 'serverchan', serverchan)
+    uci:set("ttnode", '@global[0]', 'tg_userid', tg_userid)
+    uci:set("ttnode", '@global[0]', 'tg_token', tg_token)
     uci:save("ttnode")
     uci:commit("ttnode")
     luci.sys.call("/etc/init.d/ttnode restart")

@@ -1,6 +1,6 @@
 -- Copyright (C) 2020 jerrykuku <jerrykuku@gmail.com>
 -- Licensed to the public under the GNU General Public License v3.
-
+package.path = package.path .. ';/usr/share/ttnode/?.lua'
 require 'luci.http'
 require 'luci.dispatcher'
 require 'luci.model.uci'
@@ -54,6 +54,16 @@ if (isLogin) then
     o = s:option(Value, 'serverchan', translate('Server酱 SCKEY'))
     o.rmempty = true
     o.description = translate('微信推送，基于Server酱服务，请自行登录 http://sc.ftqq.com/ 绑定并获取 SCKEY ')
+
+    -- telegram
+
+    o = s:option(Value, 'tg_token', translate('Telegram Bot Token'))
+    o.rmempty = true
+    o.description = translate('首先在Telegram上搜索BotFather机器人，创建一个属于自己的通知机器人，并获取Token。')
+
+    o = s:option(Value, 'tg_userid', translate('Telegram UserID'))
+    o.rmempty = true
+    o.description = translate('在Telegram上搜索getuserIDbot机器人，获取UserID。')
 
     o = s:option(DummyValue, '', '')
     o.rawhtml = true
