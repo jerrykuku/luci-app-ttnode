@@ -2,8 +2,6 @@
 
 一个运行在 openwrt 下的甜糖星愿自动采集插件。
 
-详情见[具体日志](./relnotes.txt)。
-
 ### 介绍
 
 脚本参考网友 Tom Dog 的 Python 版自动采集插件，使用 LUA 重写，基于 LUCI 的实现。
