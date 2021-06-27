@@ -13,15 +13,15 @@
 假设你的 lean openwrt（最新版本 19.07） 在 lede 目录下
 
 ```
-cd lede/package/lean/
+cd lede
+echo 'src-git xepher https://github.com/jerrykuku/luci-app-ttnode.git'>>feeds.conf.default
+rm -rf tmp/
 
-git clone https://github.com/jerrykuku/luci-app-ttnode.git
+./scripts/feeds update -a
+./scripts/feeds install -a -p jerrykuku
 
 make menuconfig #Check LUCI->Applications->luci-app-ttnode
-
-make package/lean/luci-app-ttnode/compile V=s  #单独编译luci-app-ttnode
-
-make -j1 V=s #编译固件
+make -j1 V=s
 ```
 
 ### 如何安装
