@@ -25,7 +25,7 @@ del_cron() {
 
 add_cron() {
     sed -i '/ttnode/d' $CRON_FILE
-    [ $(uci_get_by_type global auto_run 0) -eq 1 ] && echo '1 '$(uci_get_by_type global auto_run_time)' * * * lua /usr/share/ttnode/main.lua' >>$CRON_FILE
+    [ $(uci_get_by_type global auto_run 0) -eq 1 ] && echo '1 '$(uci_get_by_type global auto_run_time)' * * * lua /usr/share/ttnode/main.lua &' >>$CRON_FILE
     crontab $CRON_FILE
 }
 
